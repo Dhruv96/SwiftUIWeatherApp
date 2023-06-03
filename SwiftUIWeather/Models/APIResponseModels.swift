@@ -40,3 +40,9 @@ struct Description: Codable {
     let description: String
     let icon: String
 }
+
+
+struct SearchResult: Hashable {
+    let city: String
+    let country: String
+}

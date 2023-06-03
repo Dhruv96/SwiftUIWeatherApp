@@ -9,17 +9,18 @@ import SwiftUI
 
 struct SearchView: View {
     @Binding var searchText: String
+    @Binding var isSearchResultsShowing: Bool
     @ObservedObject var weatherVM: WeatherViewModel
+    @EnvironmentObject var searchModel: SearchModel
     
     var body: some View {
-        HStack {
+        HStack(alignment: .top) {
             Button {
                 // get user's location
             } label: {
-                Image(systemName: "location.circle").resizable().frame(width: 30, height: 30)
+                Image(systemName: "location.circle").resizable().frame(width: 35, height: 35)
                     .tint(.white)
             }
-            
             
             TextField("Enter city..", text: $searchText)
                 .frame(height: 40)
@@ -28,19 +29,31 @@ struct SearchView: View {
                     Color.black.opacity(0.5)
                 })
                 .cornerRadius(8)
-                .padding(8)
-            
+                .padding(.horizontal, 8)
+                .onTapGesture {
+                    isSearchResultsShowing = true
+                }
+                .onChange(of: searchText) { newValue in
+                    isSearchResultsShowing = true
+                    if searchText != "" {
+                        SearchModel.completer.queryFragment = searchText
+                    }
+                    else {
+                        isSearchResultsShowing = false
+                    }
+                }
+    
             Button {
                 // fetch location data
+                isSearchResultsShowing.toggle()
                 weatherVM.fetchWeatherDetails(for: searchText)
                 
             } label: {
-                Image(systemName: "magnifyingglass").resizable().frame(width: 30, height: 30)
+                Image(systemName: "magnifyingglass").resizable().frame(width: 35, height: 35)
                     .tint(.white)
             }
         }
-        .padding([.leading, .trailing])
-        .padding(.top, 48)
+        .padding()
         .onAppear() {
             weatherVM.fetchWeatherDetails(for: "New Delhi")
         }
@@ -49,6 +62,7 @@ struct SearchView: View {
 
 struct SearchView_Previews: PreviewProvider {
     static var previews: some View {
-        SearchView(searchText: .constant(""), weatherVM: WeatherViewModel()).previewLayout(.sizeThatFits)
+        SearchView(searchText: .constant(""), isSearchResultsShowing: .constant(false), weatherVM: WeatherViewModel()).previewLayout(.sizeThatFits)
+            .background(Color.blue)
     }
 }

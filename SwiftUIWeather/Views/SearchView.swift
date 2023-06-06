@@ -12,11 +12,15 @@ struct SearchView: View {
     @Binding var isSearchResultsShowing: Bool
     @ObservedObject var weatherVM: WeatherViewModel
     @EnvironmentObject var searchModel: SearchModel
+    @StateObject var locationManager = LocationManager()
     
     var body: some View {
         HStack(alignment: .top) {
             Button {
                 // get user's location
+                if !locationManager.city.isEmpty {
+                    weatherVM.fetchWeatherDetails(for: locationManager.city)
+                }
             } label: {
                 Image(systemName: "location.circle").resizable().frame(width: 35, height: 35)
                     .tint(.white)
@@ -45,9 +49,10 @@ struct SearchView: View {
     
             Button {
                 // fetch location data
-                isSearchResultsShowing.toggle()
-                weatherVM.fetchWeatherDetails(for: searchText)
-                
+                if !searchText.isEmpty {
+                    isSearchResultsShowing.toggle()
+                    weatherVM.fetchWeatherDetails(for: searchText)
+                }
             } label: {
                 Image(systemName: "magnifyingglass").resizable().frame(width: 35, height: 35)
                     .tint(.white)

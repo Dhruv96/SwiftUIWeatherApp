@@ -18,7 +18,7 @@ struct City: Codable {
 }
 
 struct WeatherOfDay: Codable, Identifiable {
-    let id = UUID()
+    var id: UUID { UUID() }
     let temp: Temp
     let pressure: Double
     let humidity: Double

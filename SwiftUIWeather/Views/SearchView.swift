@@ -19,7 +19,9 @@ struct SearchView: View {
             Button {
                 // get user's location
                 if !locationManager.city.isEmpty {
-                    weatherVM.fetchWeatherDetails(for: locationManager.city)
+                    Task {
+                        await weatherVM.fetchWeatherDetails(for: locationManager.city)
+                    }
                 }
             } label: {
                 Image(systemName: "location.circle").resizable().frame(width: 35, height: 35)
@@ -51,7 +53,10 @@ struct SearchView: View {
                 // fetch location data
                 if !searchText.isEmpty {
                     isSearchResultsShowing.toggle()
-                    weatherVM.fetchWeatherDetails(for: searchText)
+                    Task {
+                        await weatherVM.fetchWeatherDetails(for: searchText)
+                    }
+                    
                 }
             } label: {
                 Image(systemName: "magnifyingglass").resizable().frame(width: 35, height: 35)
@@ -60,7 +65,15 @@ struct SearchView: View {
         }
         .padding()
         .onAppear() {
-            weatherVM.fetchWeatherDetails(for: "New Delhi")
+            Task {
+                try? await Task.sleep(for: .milliseconds(500))
+                if !locationManager.city.isEmpty {
+                    await weatherVM.fetchWeatherDetails(for: locationManager.city)
+                    
+                }
+                    
+            }
+           
         }
     }
 }

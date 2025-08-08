@@ -9,20 +9,19 @@ import SwiftUI
 
 struct CityView: View {
     
-    var city: City
-    var timeinterval: TimeInterval?
+    @ObservedObject var cityVM: CityViewModel
     
     var body: some View {
         HStack {
             VStack(alignment: .leading, spacing: 8) {
-                Text(city.name)
+                Text(cityVM.name)
                     .font(.system(size: 40))
                     .fontWeight(.heavy)
-                Text(city.country)
+                Text(cityVM.country)
                     .font(.system(size: 30))
                     .fontWeight(.medium)
-                if let timeinterval = timeinterval {
-                    Text(getToday(for: timeinterval))
+                if let timeInterval = cityVM.timeInterval{
+                    Text(getToday(for: timeInterval))
                         .font(.system(size: 20))
                 }
 
@@ -36,6 +35,6 @@ struct CityView: View {
 
 struct CityView_Previews: PreviewProvider {
     static var previews: some View {
-        CityView(city: City(name: "New Delhi", country: "IN"), timeinterval: 1685255400).previewLayout(.fixed(width: 372, height: 180))
+        CityView(cityVM: CityViewModel(name: "Delhi", country: "India", timeInterval: TimeInterval()))
     }
 }

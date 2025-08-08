@@ -12,7 +12,7 @@ struct ContentView: View {
     @StateObject var searchModel = SearchModel()
     @State var isSearchResultsShowing = false
     
-    let row = GridItem(.fixed(180), spacing: 10, alignment: .leading)
+    let row = GridItem(.fixed(10), spacing: 8, alignment: .leading)
     var body: some View {
         ZStack {
             ScrollView {
@@ -27,29 +27,36 @@ struct ContentView: View {
                             .padding(.top, -20)
                     }
                     else {
-                        CityView(city: weatherVM.weatherApiResponse?.city ?? City(name: "- -", country: "-"), timeinterval: weatherVM.weatherApiResponse?.list.first?.dt)
                         
-                        weatherVM.weatherApiResponse?.list.first.map({ weatherOfDay in
-                            WeatherDescriptionView(today: weatherOfDay)
-                        })
+                        if let city = weatherVM.cityViewModel {
+                            CityView(cityVM: city)
+                        }
                         
-                        WeatherElementView(weatherAttribute: "Humidity", weatherAttributeVal: weatherVM.weatherApiResponse?.list.first?.humidity ?? 0)
-                        WeatherElementView(weatherAttribute: "Pressure", weatherAttributeVal: weatherVM.weatherApiResponse?.list.first?.pressure ?? 0)
-                        WeatherElementView(weatherAttribute: "Gusts", weatherAttributeVal: weatherVM.weatherApiResponse?.list.first?.gust ?? 0)
-                        Text("Next 5 Days")
-                            .padding(.leading, 16)
-                            .padding(.top, 16)
-                            .padding(.bottom, -8)
-                        
-                        if let list = weatherVM.weatherApiResponse?.list {
-                            ScrollView(.horizontal, showsIndicators: false) {
+                        if let today = weatherVM.todayForecast {
+                            WeatherDescriptionView(weatherForecastVM: today)
+                        }
+                        if let stats = weatherVM.statsViewModel {
+                            WeatherElementView(weatherAttribute: "Humidity", weatherAttributeVal: stats.humidity)
+                            WeatherElementView(weatherAttribute: "Pressure", weatherAttributeVal: stats.pressure)
+                            WeatherElementView(weatherAttribute: "Gusts", weatherAttributeVal: stats.gust)
+                        }
+                    
+                        if !weatherVM.upcomingForecasts.isEmpty {
+                            
+                            Text("Next 5 Days")
+                                .padding(.leading, 16)
+                                .padding(.top, 16)
+                                .padding(.bottom, 8)
+                            
+                            ScrollView(.horizontal) {
                                 LazyHGrid(rows: [row], spacing: 0) {
-                                    ForEach(1..<list.count, id: \.self) { i in
-                                        NextDayView(weatherOfDay: list[i])
+                                    ForEach(weatherVM.upcomingForecasts) { day in
+                                        NextDayView(nextDayVM: day)
                                     }
                                 }
                             }
                         }
+                        
                     }
                     
                 }
@@ -67,5 +74,6 @@ struct ContentView: View {
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView(weatherVM: WeatherViewModel())
+                   
     }
 }

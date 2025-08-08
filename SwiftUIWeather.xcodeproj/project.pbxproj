@@ -44,6 +44,7 @@
 		158BEE2F2E4567040061F07E /* ViewModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModels.swift; sourceTree = "<group>"; };
 		158BEE312E4595DD0061F07E /* Secrets.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Secrets.xcconfig; sourceTree = "<group>"; };
 		15B739FB2A25DEF0006B15BB /* SearchModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchModel.swift; sourceTree = "<group>"; };
+		15DD2DD12E45C4C900ED2EC1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -112,6 +113,7 @@
 		157D4D022A135B2900C2A401 /* SwiftUIWeather */ = {
 			isa = PBXGroup;
 			children = (
+				15DD2DD12E45C4C900ED2EC1 /* Info.plist */,
 				150CC27A2A20E0C8009E186C /* Helpers */,
 				153764062A14E84800C75581 /* ViewModels */,
 				153764032A14E4A600C75581 /* Models */,
@@ -361,6 +363,7 @@
 				DEVELOPMENT_TEAM = BP6NFXHE75;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = SwiftUIWeather/Info.plist;
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Location Access is needed to deteect currrent city";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -392,6 +395,7 @@
 				DEVELOPMENT_TEAM = BP6NFXHE75;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = SwiftUIWeather/Info.plist;
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Location Access is needed to deteect currrent city";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;

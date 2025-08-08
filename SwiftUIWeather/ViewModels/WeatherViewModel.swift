@@ -75,10 +75,10 @@ class WeatherViewModel: ObservableObject {
     }
 
     private func buildURL(for location: String) -> URL? {
-        guard let apiKey = Bundle.main.infoDictionary?["OPENWEATHER_API_KEY"] as? String  else {
+        guard let apiKey = Bundle.main.infoDictionary?["API_KEY"] as? String  else {
             return nil
         }
-        print("API Key: \(apiKey)")
+        
         let base = "https://api.openweathermap.org/data/2.5/forecast/daily"
         var components = URLComponents(string: base)
         components?.queryItems = [

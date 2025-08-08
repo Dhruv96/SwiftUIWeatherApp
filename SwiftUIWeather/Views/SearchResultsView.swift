@@ -20,17 +20,20 @@ struct SearchResultsView: View {
                     Divider()
                 }
                 .onTapGesture {
-                    var x = print(result.city)
-                    if result.city.contains(",") {
-                        let res = result.city.split(separator: ",")
-                        weatherVM.fetchWeatherDetails(for: String(res[0]))
+                    Task {
+                        let cityName: String
+                        if result.city.contains(",") {
+                            let parts = result.city.split(separator: ",")
+                            cityName = String(parts[0])
+                        } else {
+                            cityName = result.city
+                        }
+                        
+                        await weatherVM.fetchWeatherDetails(for: cityName)
+                        isSearchResultsShowing = false
                     }
-                    else {
-                        weatherVM.fetchWeatherDetails(for: result.city)
-                    }
-                    
-                    isSearchResultsShowing.toggle()
                 }
+                
             }
         }
     }
